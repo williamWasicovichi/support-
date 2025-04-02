@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Support++</string>
+    <string name="emial">joaoninguem@gmail.com</string>
+    <string name="senha">**************</string>
+    <string name="Login">Login</string>
+    <string name="recuperar_senha">Recuperar senha</string>
+    <string name="cadastre_se">Casdastre-se</string>
+    <string name="TXTsenha">Senha</string>
+
+</resources>
