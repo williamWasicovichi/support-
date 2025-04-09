@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey"
+    tools:context=".CadastreSE">
+
+    <ImageView
+        android:id="@+id/cabecario"
+        android:layout_width="500dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/emailCTV"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/emailA"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cabecario" />
+
+    <EditText
+        android:id="@+id/emailETC"
+        android:layout_width="400dp"
+        android:layout_height="48dp"
+        android:background="@color/grey"
+        android:hint="....."
+        android:textColorHint="@color/grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailCTV" />
+
+    <TextView
+        android:id="@+id/nomeTV"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="160dp"
+        android:text="@string/NomeA"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailETC" />
+
+    <EditText
+        android:id="@+id/nomeET"
+        android:layout_width="400dp"
+        android:layout_height="48dp"
+        android:background="@color/grey"
+        android:hint="...."
+        android:textColorHint="@color/grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nomeTV" />
+
+    <TextView
+        android:id="@+id/senhaCTV"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="160dp"
+        android:text="@string/senhaA"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nomeET" />
+
+    <EditText
+        android:id="@+id/senhaCET"
+        android:layout_width="400dp"
+        android:layout_height="48dp"
+        android:background="@color/grey"
+        android:hint="..."
+        android:textColorHint="@color/grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/senhaCTV" />
+
+    <TextView
+        android:id="@+id/conf_senha"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="160dp"
+        android:text="@string/senha_conf"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/senhaCET" />
+
+    <EditText
+        android:id="@+id/conf_senhaCET"
+        android:layout_width="400dp"
+        android:layout_height="48dp"
+        android:background="@color/grey"
+        android:hint="..."
+        android:textColorHint="@color/grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/conf_senha" />
+
+    <TextView
+        android:id="@+id/Codigo_Empresa"
+        android:layout_width="200dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="160dp"
+        android:text="@string/codigo_Empresa"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/conf_senhaCET" />
+
+    <EditText
+        android:id="@+id/Codigo_EmpresaET"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="175dp"
+        android:hint="..."
+        android:textColorHint="@color/grey"
+        android:background="@color/grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Codigo_Empresa" />
+
+    <Button
+        android:id="@+id/gerar_ticket"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="38dp"
+        android:backgroundTint="@color/grey"
+        android:text="@string/cadastre_se"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

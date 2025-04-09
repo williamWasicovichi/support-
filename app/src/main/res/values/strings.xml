@@ -6,5 +6,17 @@
     <string name="recuperar_senha">Recuperar senha</string>
     <string name="cadastre_se">Casdastre-se</string>
     <string name="TXTsenha">Senha</string>
-
+    <string name="ticAetndimento">Ticket de Atendimento</string>
+    <string name="empresa">Empresa</string>
+    <string name="motivoTicket">Digite o motivo de gerar o ticket</string>
+    <string name="Motivo">Motivo</string>
+    <string name="gTicket">Gerar Ticket</string>
+    <string name="NomeC">Nome Completo</string>
+    <string name="emailC">E-mail</string>
+    <string name="senhaC">Senha</string>
+    <string name="senha_conf">Confirmar Senha</string>
+    <string name="codigo_Empresa">Codigo da Empresa </string>
+    <string name="NomeA">Nome Completo</string>
+    <string name="emailA">E-mail</string>
+    <string name="senhaA">Senha</string>
 </resources>
