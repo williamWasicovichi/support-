@@ -8,8 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     private lateinit var usuario: EditText
@@ -36,7 +34,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this,GeradorTicket::class.java) )
             }
             else if (usuario.text.toString() == emailSuporte && senha.text.toString() == senhaSuporte){
-                startActivity(Intent(this,suporteMenu::class.java) )
+                startActivity(Intent(this,SuporteMenu::class.java) )
             }
             else{
                 Toast.makeText(this,"falha",Toast.LENGTH_SHORT).show()
@@ -44,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         }
         cadastra_se.setOnClickListener{
-            startActivity(Intent(this,CadastreSE::class.java) )
+            startActivity(Intent(this,CadastreSeAtendente::class.java) )
         }
     }
 }
