@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Sup"
         tools:targetApi="31">
         <activity
+            android:name=".ClienteMenu"
+            android:exported="false" />
+        <activity
             android:name=".Recuperar_senha"
             android:exported="false" />
         <activity
