@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         }
         cadastra_se.setOnClickListener{
-            startActivity(Intent(this,CadastreSeAtendente::class.java) )
+            startActivity(Intent(this,cadastra_se::class.java) )
         }
     }
 }

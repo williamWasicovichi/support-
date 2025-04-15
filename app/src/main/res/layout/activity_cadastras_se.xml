@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context=".CadastreSeAtendente">
+    android:padding="16dp"
+    tools:context=".Cadastras_se">
 
     <ImageView
         android:id="@+id/cabecario"
@@ -60,6 +61,7 @@
         android:background="@color/grey"
         android:hint="...."
         android:textColorHint="@color/grey"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nomeTV" />
@@ -117,6 +119,7 @@
         android:layout_marginRight="160dp"
         android:text="@string/codigo_Empresa"
         android:textColor="@color/white"
+        android:visibility="invisible"
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -130,9 +133,29 @@
         android:hint="..."
         android:textColorHint="@color/grey"
         android:background="@color/grey"
+        android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Codigo_Empresa" />
+    <CheckBox
+        android:id="@+id/atendenteCB"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/conf_senhaCET"
+        android:layout_marginRight="130dp"
+
+        />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        app:layout_constraintLeft_toRightOf="@id/atendenteCB"
+        app:layout_constraintTop_toBottomOf="@id/conf_senhaCET"
+        app:layout_constraintBottom_toTopOf="@id/Codigo_EmpresaET"
+        android:text="Atendente"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/gerar_ticket"

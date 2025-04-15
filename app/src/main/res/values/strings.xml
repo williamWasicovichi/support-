@@ -8,7 +8,7 @@
     <string name="TXTsenha">Senha</string>
     <string name="ticAetndimento">Ticket de Atendimento</string>
     <string name="empresa">Empresa</string>
-    <string name="motivoTicket">Digite o motivo de gerar o ticket</string>
+    <string name="motivoTicket">Digite o motivo para gerar o ticket</string>
     <string name="Motivo">Motivo</string>
     <string name="gTicket">Gerar Ticket</string>
     <string name="NomeC">Nome Completo</string>
@@ -19,4 +19,7 @@
     <string name="NomeA">Nome Completo</string>
     <string name="emailA">E-mail</string>
     <string name="senhaA">Senha</string>
+    <string name="mudarSenha">Mudar a senha</string>
+    <string name="cancelarConta">Cancelar a conta</string>
+    <string name="salvarMudanca">Salvar</string>
 </resources>
