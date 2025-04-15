@@ -51,13 +51,17 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
+<!--    Alterei a ordem dos botões de loguin e cadastro-->
+<!--    e removi a altura do botão de recuperar senha, alterando o tamanho do-->
+<!--    texto para 15.-->
     <TextView
         android:id="@+id/recuperar_senha"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginRight="240dp"
         android:clickable="true"
+        android:textSize="15sp"
         android:focusable="true"
         android:text="@string/recuperar_senha"
         android:textColor="@color/white"
@@ -102,7 +106,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/grey"
         android:text="@string/Login"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recuperar_senha"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -112,7 +116,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/grey"
         android:text="@string/cadastre_se"
-        app:layout_constraintBottom_toTopOf="@id/login"
+        app:layout_constraintTop_toBottomOf="@+id/login"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 

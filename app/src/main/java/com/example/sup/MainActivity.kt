@@ -37,12 +37,15 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this,SuporteMenu::class.java) )
             }
             else{
-                Toast.makeText(this,"falha",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Usuario ou senha incorretos.",Toast.LENGTH_LONG).show()
             }
 
         }
+
         cadastra_se.setOnClickListener{
-            startActivity(Intent(this,cadastra_se::class.java) )
+            //Você estava passando o botão cadastre_se e não a activity Cadastre_se
+//            startActivity(Intent(this,cadastra_se::class.java) )
+            startActivity(Intent(this,Cadastras_se::class.java) )
         }
     }
 }

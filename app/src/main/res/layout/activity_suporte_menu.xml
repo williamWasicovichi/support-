@@ -17,36 +17,20 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <EditText
-        android:id="@+id/data"
-        android:layout_width="60dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey"
-        android:hint="Data"
-        android:textColorHint="@color/white"
-        android:textAlignment="gravity"
-        android:gravity="top"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cabecario"
-        android:layout_marginRight="290dp"
-        />
 
-    <EditText
-        android:id="@+id/ticket"
-        android:layout_width="280dp"
-        android:layout_height="400dp"
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@color/grey"
-        android:hint="Ticket"
-        android:textAlignment="gravity"
-        android:gravity="top"
-        android:textColorHint="@color/white"
-        app:layout_constraintHorizontal_bias="0.181"
-        app:layout_constraintLeft_toRightOf="@id/data"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cabecario" />
+        app:layout_constraintBottom_toTopOf="@+id/Exportar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cabecario"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/Exportar"
