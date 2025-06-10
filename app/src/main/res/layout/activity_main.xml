@@ -61,7 +61,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="240dp"
         android:clickable="true"
-        android:textSize="15sp"
+        android:textSize="18sp"
         android:focusable="true"
         android:text="@string/recuperar_senha"
         android:textColor="@color/white"

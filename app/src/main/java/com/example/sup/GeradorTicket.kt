@@ -1,5 +1,6 @@
 package com.example.sup
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -22,6 +23,9 @@ class GeradorTicket : AppCompatActivity() {
         eVMotivo = findViewById(R.id.eVMotivo)
         spinner_empresa = findViewById(R.id.spinner_empresa)
         gerar_ticket = findViewById(R.id.gerar_ticket)
+        gerar_ticket.setOnClickListener {
+            startActivity(Intent(this,Chat::class.java))
+        }
 
     }
 }

@@ -62,7 +62,7 @@
         android:background="@color/grey"
         android:hint="...."
         android:textColorHint="@color/grey"
-        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nomeTV" />
@@ -159,7 +159,7 @@
         android:gravity="center"/>
 
     <Button
-        android:id="@+id/gerar_ticket"
+        android:id="@+id/cadastra_sebt"
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginBottom="38dp"

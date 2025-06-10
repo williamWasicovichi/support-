@@ -22,4 +22,10 @@
     <string name="mudarSenha">Mudar a senha</string>
     <string name="cancelarConta">Cancelar a conta</string>
     <string name="salvarMudanca">Salvar</string>
+    <string-array name="company_array">
+        <item>Select Company</item>
+        <item>Company A</item>
+        <item>Company B</item>
+        <item>Company C</item>
+    </string-array>
 </resources>

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Sup"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
             android:name=".Chat"
             android:exported="false" />
         <activity
@@ -23,19 +26,17 @@
             android:exported="false" />
         <activity
             android:name=".Dados_da_conta"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".Casdastra_se"-->
-<!--            android:exported="false" />-->
-<!--        <activity-->
-<!--            android:name=".TipoDeCadastro"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".Casdastra_se" -->
+        <!-- android:exported="false" /> -->
+        <!-- <activity -->
+        <!-- android:name=".TipoDeCadastro" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".Cadastras_se"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".CadastreSeAtendente"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".CadastreSeAtendente" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".SuporteMenu"
             android:exported="false" />
