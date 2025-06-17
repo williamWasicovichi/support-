@@ -17,16 +17,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/ticket"
         android:layout_width="360dp"
         android:layout_height="350dp"
         android:layout_marginTop="20dp"
         android:background="@color/grey"
+        android:gravity="top"
         android:hint="Ticket"
         android:textAlignment="gravity"
-        android:gravity="top"
         android:textColorHint="@color/white"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cabecario" />

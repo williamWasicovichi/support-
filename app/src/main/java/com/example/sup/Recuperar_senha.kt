@@ -2,40 +2,97 @@ package com.example.sup
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
+import android.widget.ProgressBar // Add to layout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class Recuperar_senha : AppCompatActivity() {
-    private lateinit var email: EditText
-    private lateinit var senha: EditText
-    private lateinit var confirmar_senha: EditText
-    private lateinit var Salvar: Button
+    private lateinit var emailET: EditText // Renamed for clarity
+    private lateinit var enviarEmailBT: Button // Renamed for clarity (was Salvar)
+    private lateinit var progressBarRecuperar: ProgressBar // Add to your layout
+
+    private lateinit var auth: FirebaseAuth
+    private val TAG = "RecuperarSenhaActivity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        // Assuming your layout R.layout.activity_recuperar_senha has:
+        // 1. An EditText for email (e.g., android:id="@+id/emailEditTextRecuperar")
+        // 2. A Button to send the email (e.g., android:id="@+id/enviarEmailButton")
+        // 3. Optionally, a ProgressBar
         setContentView(R.layout.activity_recuperar_senha)
-        email = findViewById(R.id.emailETC)
-        senha = findViewById(R.id.senha)
-        confirmar_senha = findViewById(R.id.senhaCET)
-        Salvar = findViewById(R.id.salvar)
-        Salvar.setOnClickListener {
-           // if (){
-              //   startActivity(Intent(this, ClienteMenu::class.java))
+
+        auth = Firebase.auth
+
+        emailET = findViewById(R.id.emailETC) // Make sure this ID is just for email input
+        enviarEmailBT = findViewById(R.id.salvar) // Assuming 'salvar' is the button to send email
+        // progressBarRecuperar = findViewById(R.id.progressBarRecuperar) // Initialize if you add it
+
+        // Remove the senha and confirmar_senha EditTexts from this layout
+        // if this screen is ONLY for SENDING the reset email.
+
+        enviarEmailBT.setOnClickListener {
+            sendPasswordResetEmail()
+        }
+    }
+
+    private fun sendPasswordResetEmail() {
+        val emailAddress = emailET.text.toString().trim()
+
+        if (emailAddress.isEmpty()) {
+            emailET.error = "Email é obrigatório"
+            emailET.requestFocus()
+            return
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+            emailET.error = "Insira um email válido"
+            emailET.requestFocus()
+            return
+        }
+
+        setLoading(true)
+        auth.sendPasswordResetEmail(emailAddress)
+            .addOnCompleteListener { task ->
+                setLoading(false)
+                if (task.isSuccessful) {
+                    Log.d(TAG, "Email de redefinição de senha enviado.")
+                    Toast.makeText(
+                        this,
+                        "Email de redefinição de senha enviado para $emailAddress. Verifique sua caixa de entrada.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    // Optionally, navigate back to login screen
+                    // finish()
+                    // or
+                    // startActivity(Intent(this, MainActivity::class.java))
+                    // finish()
+                } else {
+                    Log.w(TAG, "sendPasswordResetEmail:failure", task.exception)
+                    Toast.makeText(
+                        this,
+                        "Falha ao enviar email de redefinição: ${task.exception?.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
-            //else if (){
-              //  startActivity(Intent(this,SuporteMenu::class.java) )
             }
-            //else{
-              //  Toast.makeText(this,"E-mail ou senha incorretos.",Toast.LENGTH_LONG).show()
-            }
+    }
 
-       // }
-   // }
-//}
-
+    private fun setLoading(isLoading: Boolean) {
+        // if(::progressBarRecuperar.isInitialized) {
+        //     progressBarRecuperar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        // }
+        enviarEmailBT.isEnabled = !isLoading
+        emailET.isEnabled = !isLoading
+    }
+}

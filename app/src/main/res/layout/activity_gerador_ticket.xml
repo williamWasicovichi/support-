@@ -2,88 +2,93 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/mainCreateTicketLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
     android:padding="16dp"
-    tools:context=".GeradorTicket">
+    tools:context=".CreateTicketActivity">
 
     <TextView
-        android:id="@+id/cticket"
-        android:layout_width="400dp"
-        android:layout_height="70dp"
-        android:gravity="center"
-        android:text="@string/ticAetndimento"
-        android:textColor="@color/white"
-        android:textSize="35dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/motivo"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginRight="250dp"
-        android:text="@string/Motivo"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cticket" />
-
-    <EditText
-        android:id="@+id/eVMotivo"
-        android:layout_width="360dp"
-        android:layout_height="360dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey"
-        android:hint="@string/motivoTicket"
-        android:textColorHint="@color/light_grey"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/motivo" />
-
-    <TextView
-        android:id="@+id/txempresa"
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="160dp"
-        android:text="@string/empresa"
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        app:layout_constraintHorizontal_bias="0.607"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/eVMotivo" />
-
-    <Spinner
-        android:id="@+id/spinner_empresa"
-        android:layout_width="360dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/grey"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txempresa" />
-
-    <Button
-        android:id="@+id/gerar_ticket"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:backgroundTint="@color/grey"
-        android:text="@string/gTicket"
-        app:layout_constraintHorizontal_bias="0.459"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinner_empresa" />
+        android:text="Criar Novo Ticket"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldMotive"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Motivo/Problema">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextMotive"
+            android:layout_width="match_parent"
+            android:layout_height="239dp"
+            android:background="@color/grey"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:textColor="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textViewSelectCompanyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecione a Empresa:"
+        android:textColor="@color/white"
+        android:layout_marginTop="36dp"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@id/textFieldMotive"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Spinner
+        android:id="@+id/spinnerCompany"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/textViewSelectCompanyLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        android:background="@color/grey"
+        />
+
+    <Button
+        android:id="@+id/buttonCreateTicket"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Gerar Ticket e Iniciar Chat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/grey"
+        android:layout_marginBottom="16dp"/>
+
+    <ProgressBar
+        android:id="@+id/progressBarCreateTicket"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
