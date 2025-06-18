@@ -52,7 +52,7 @@ class CreateTicketActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_create_ticket)
+        setContentView(R.layout.activity_gerador_ticket)
 
         auth = Firebase.auth
         db = Firebase.firestore

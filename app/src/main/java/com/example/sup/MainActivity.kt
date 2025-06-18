@@ -15,42 +15,47 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth // KTX extension
+import com.google.firebase.firestore.ktx.firestore // Firestore KTX
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var usuarioET: EditText // Renamed for clarity (ET for EditText)
-    private lateinit var senhaET: EditText   // Renamed for clarity
-    private lateinit var recuperarSenhaTV: TextView // Renamed for clarity (TV for TextView)
-    private lateinit var cadastraseBT: Button   // Renamed for clarity (BT for Button)
-    private lateinit var loginBT: Button        // Renamed for clarity
-    private lateinit var progressBarLogin: ProgressBar // Add to your activity_main.xml
+    private lateinit var usuarioET: EditText
+    private lateinit var senhaET: EditText
+    private lateinit var recuperarSenhaTV: TextView
+    private lateinit var cadastraseBT: Button
+    private lateinit var loginBT: Button
+    private lateinit var progressBarLogin: ProgressBar
 
     private lateinit var auth: FirebaseAuth
+    private val db = Firebase.firestore // Initialize Firestore instance
 
-    // Define your own TAG for logging
     private val TAG = "MainActivity"
+
+    // User types (consistent with Cadastras_se)
+    object UserType {
+        const val CLIENTE = "cliente"
+        const val SUPORTE = "suporte"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        // Initialize Firebase Auth
         auth = Firebase.auth
 
-        // Initialize Views
         usuarioET = findViewById(R.id.usuario)
         senhaET = findViewById(R.id.senha)
         recuperarSenhaTV = findViewById(R.id.recuperar_senha)
-        cadastraseBT = findViewById(R.id.cadastra_se) // Ensure this ID matches your XML
-        loginBT = findViewById(R.id.login)           // Ensure this ID matches your XML
-        // progressBarLogin = findViewById(R.id.progressBarLogin) // Example ID, add to XML
+        cadastraseBT = findViewById(R.id.cadastra_se)
+        loginBT = findViewById(R.id.login)
+        progressBarLogin = findViewById(R.id.progressBarLogin) // Make sure this ID is in your XML
 
-        // Check if a user is already signed in (optional, but good for UX)
-        // if (auth.currentUser != null) {
-        //     Log.d(TAG, "User already signed in: ${auth.currentUser?.uid}")
-        //     navigateToHomeScreen() // Or whatever your main app screen is
-        // }
+        // Initial check in onCreate is fine, but onStart is more robust for returning users
+        // If you keep it here, ensure onStart also has a check or remove one.
+         if (auth.currentUser != null) {
+            Log.d(TAG, "User already signed in on create: ${auth.currentUser?.uid}")
+             fetchUserTypeAndNavigate(auth.currentUser!!) }
 
         loginBT.setOnClickListener {
             performLogin()
@@ -61,8 +66,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         recuperarSenhaTV.setOnClickListener {
-            // TODO: Implement password recovery functionality
-            // Example: startActivity(Intent(this, ForgotPasswordActivity::class.java))
             Toast.makeText(this, "Forgot Password Clicked - Implement me!", Toast.LENGTH_SHORT).show()
         }
     }
@@ -71,13 +74,11 @@ class MainActivity : AppCompatActivity() {
         val email = usuarioET.text.toString().trim()
         val password = senhaET.text.toString().trim()
 
-        // --- Input Validations ---
         if (email.isEmpty()) {
             usuarioET.error = "Email é obrigatório"
             usuarioET.requestFocus()
             return
         }
-        // Optional: More robust email validation
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             usuarioET.error = "Insira um email válido"
             usuarioET.requestFocus()
@@ -88,74 +89,117 @@ class MainActivity : AppCompatActivity() {
             senhaET.requestFocus()
             return
         }
-        // --- End of Validations ---
 
         setLoading(true)
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
-                setLoading(false) // Hide progress bar regardless of outcome
+                // No need to call setLoading(false) here yet,
+                // as Firestore fetch will happen next.
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
-                    updateUI(user) // Or directly navigate
-                    navigateToHomeScreen() // Example navigation
+                    if (user != null) {
+                        fetchUserTypeAndNavigate(user) // Fetch type THEN navigate
+                    } else {
+                        setLoading(false)
+                        Toast.makeText(baseContext, "Falha ao obter dados do usuário.", Toast.LENGTH_SHORT).show()
+                        updateUI(null)
+                    }
                 } else {
+                    setLoading(false)
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
                     Toast.makeText(
                         baseContext,
-                        "Falha na autenticação: ${task.exception?.message}", // More specific error
-                        Toast.LENGTH_LONG, // Show longer for errors
+                        "Falha na autenticação: ${task.exception?.message}",
+                        Toast.LENGTH_LONG,
                     ).show()
                     updateUI(null)
                 }
             }
-        // Removed the empty if() {} block
+    }
+
+    private fun fetchUserTypeAndNavigate(firebaseUser: FirebaseUser) {
+        val userId = firebaseUser.uid
+        db.collection("users").document(userId).get()
+            .addOnSuccessListener { documentSnapshot ->
+                setLoading(false) // Set loading false after Firestore fetch
+                if (documentSnapshot.exists()) {
+                    val userType = documentSnapshot.getString("userType")
+                    Log.d(TAG, "User type fetched: $userType for user $userId")
+
+                    // --- Conditional Navigation ---
+                    when (userType) {
+                        UserType.CLIENTE -> {
+                            val intent = Intent(this, ClienteMenu::class.java) // Activity for Cliente
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
+                        }
+                        UserType.SUPORTE -> {
+                            // TODO: Replace SuporteDashboardActivity::class.java with your actual support dashboard
+                            val intent = Intent(this, SuporteMenu::class.java) // Activity for Suporte
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
+                        }
+                        else -> {
+                            // Unknown user type or userType field missing
+                            Log.w(TAG, "User type not found or unknown in Firestore: $userType")
+                            Toast.makeText(this, "Tipo de usuário desconhecido. Contate o suporte.", Toast.LENGTH_LONG).show()
+                            // Optional: Sign out the user if userType is critical and missing
+                            // auth.signOut()
+                            // updateUI(null)
+                        }
+                    }
+                } else {
+                    Log.w(TAG, "User document does not exist in Firestore for user $userId")
+                    Toast.makeText(this, "Dados do usuário não encontrados. Contate o suporte.", Toast.LENGTH_LONG).show()
+                    // Optional: Sign out the user
+                    // auth.signOut()
+                    // updateUI(null)
+                }
+            }
+            .addOnFailureListener { e ->
+                setLoading(false)
+                Log.e(TAG, "Error fetching user type from Firestore", e)
+                Toast.makeText(this, "Erro ao buscar dados do usuário: ${e.message}", Toast.LENGTH_LONG).show()
+                // Optional: Sign out the user
+                // auth.signOut()
+                // updateUI(null)
+            }
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        // This function can be used to update parts of the UI if staying on this screen,
-        // but often for login, you navigate away on success.
         if (user != null) {
-            // User is signed in.
-            // UI updates for this screen are probably minimal if you navigate away.
             Log.i(TAG, "UpdateUI: User ${user.uid} is signed in.")
         } else {
-            // User is signed out.
             Log.i(TAG, "UpdateUI: User is signed out.")
+            // You might want to clear input fields here if login fails or user is signed out
+            usuarioET.text.clear()
+            senhaET.text.clear()
+            usuarioET.error = null // Clear previous errors
+            senhaET.error = null
         }
     }
 
-    private fun navigateToHomeScreen() {
-        // Replace HomeScreenActivity::class.java with your actual main authenticated activity
-        // val intent = Intent(this, HomeScreenActivity::class.java)
-        // intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Clear back stack
-        // startActivity(intent)
-        // finish() // Call finish to remove LoginActivity from the back stack
-
-        Toast.makeText(this, "Login Successful! (Implement Navigation)", Toast.LENGTH_LONG).show() // Placeholder
-    }
-
+    // setLoading remains the same
     private fun setLoading(isLoading: Boolean) {
-        // Make sure progressBarLogin is initialized if you use it
-        // if (::progressBarLogin.isInitialized) {
-        // progressBarLogin.visibility = if (isLoading) View.VISIBLE else View.GONE
-        // }
+        progressBarLogin.visibility = if (isLoading) View.VISIBLE else View.GONE
         loginBT.isEnabled = !isLoading
-        cadastraseBT.isEnabled = !isLoading // Also disable register button during login attempt
+        cadastraseBT.isEnabled = !isLoading
         usuarioET.isEnabled = !isLoading
         senhaET.isEnabled = !isLoading
     }
 
-    // Optional: Add onStart to check if user is already signed in
-    // override fun onStart() {
-    //     super.onStart()
-    //     // Check if user is signed in (non-null) and update UI accordingly.
-    //     val currentUser = auth.currentUser
-    //     if (currentUser != null) {
-    //         // User is already signed in, perhaps navigate to home screen
-    //         Log.d(TAG, "onStart: User ${currentUser.uid} already logged in.")
-    //         navigateToHomeScreen()
-    //     }
-    // }
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            Log.d(TAG, "onStart: User ${currentUser.uid} already logged in. Fetching type...")
+            // Show loading indicator while fetching user type from Firestore
+            setLoading(true) // Show loading before starting the async Firestore call
+            fetchUserTypeAndNavigate(currentUser)
+        }
+    }
 }

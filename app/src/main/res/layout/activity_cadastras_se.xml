@@ -2,172 +2,155 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/mainRegistrationLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
-    android:padding="16dp"
+    android:padding="24dp"
     tools:context=".Cadastras_se">
 
-    <ImageView
-        android:id="@+id/cabecario"
-        android:layout_width="500dp"
-        android:layout_height="100dp"
-        android:src="@drawable/logo"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/emailCTV"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/emailA"
-        android:textColor="@color/white"
-        android:textSize="21sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/emailETC"
-        app:layout_constraintTop_toBottomOf="@id/cabecario"
-        android:layout_marginBottom="20dp"
-        />
+        android:text="Criar Conta"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp"/>
 
-    <EditText
-        android:id="@+id/emailETC"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/grey"
-        android:hint="....."
-        android:textColorHint="@color/grey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailCTV" />
-
-    <TextView
-        android:id="@+id/nomeTV"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldNome"
+        style="?attr/textInputFilledStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/NomeA"
-        android:textColor="@color/white"
-        android:textSize="21dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintLeft_toLeftOf="@+id/emailETC"
-        app:layout_constraintBottom_toTopOf="@+id/nomeET"
-        app:layout_constraintTop_toBottomOf="@id/emailETC" />
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Nome Completo">
 
-    <EditText
-        android:id="@+id/nomeET"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/grey"
-        android:hint="...."
-        android:textColorHint="@color/grey"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nomeTV" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nomeET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName|textCapWords" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/senhaCTV"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldEmail"
+        style="?attr/textInputFilledStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="160dp"
-        android:text="@string/senhaA"
-        android:textColor="@color/white"
-        android:textSize="21dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintLeft_toLeftOf="@+id/nomeTV"
-        app:layout_constraintTop_toBottomOf="@id/nomeET" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/textFieldNome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Email">
 
-    <EditText
-        android:id="@+id/senhaCET"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/grey"
-        android:hint="..."
-        android:textColorHint="@color/grey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/senhaCTV" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailCTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/conf_senha"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldSenha"
+        style="?attr/textInputFilledStyle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="160dp"
-        android:text="@string/senha_conf"
-        android:textColor="@color/white"
-        android:textSize="21dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/senhaCET" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/textFieldEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
+        android:hint="Senha (mín. 6 caracteres)">
 
-    <EditText
-        android:id="@+id/conf_senhaCET"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/grey"
-        android:hint="..."
-        android:textColorHint="@color/grey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/conf_senha" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/senhaCET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/Codigo_Empresa"
-        android:layout_width="200dp"
-        android:layout_height="48dp"
-        android:layout_marginRight="160dp"
-        android:text="@string/codigo_Empresa"
-        android:textColor="@color/white"
-        android:visibility="invisible"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/conf_senhaCET" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldConfSenha"
+        style="?attr/textInputFilledStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/textFieldSenha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
+        android:hint="Confirmar Senha">
 
-    <EditText
-        android:id="@+id/Codigo_EmpresaET"
-        android:layout_width="220dp"
-        android:layout_height="48dp"
-        android:layout_marginRight="175dp"
-        android:hint="..."
-        android:textColorHint="@color/grey"
-        android:background="@color/grey"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Codigo_Empresa" />
-    <CheckBox
-        android:id="@+id/atendenteCB"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/conf_senhaCET"
-        android:layout_marginRight="130dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/conf_senhaCET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        />
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        app:layout_constraintLeft_toRightOf="@id/atendenteCB"
-        app:layout_constraintTop_toBottomOf="@id/conf_senhaCET"
-        app:layout_constraintBottom_toTopOf="@id/Codigo_EmpresaET"
-        android:text="Atendente"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        android:gravity="center"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textFieldCodigoEmpresa"
+        style="?attr/textInputFilledStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/textFieldConfSenha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Código da Empresa (Opcional - para Suporte)">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Codigo_EmpresaET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+        <!-- Consider android:digits if it's alphanumeric or just numbers -->
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/cadastra_sebt"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="38dp"
-        android:backgroundTint="@color/grey"
-        android:text="@string/cadastre_se"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cadastrar"
+        app:layout_constraintTop_toBottomOf="@id/textFieldCodigoEmpresa"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"/>
+    <!-- tools:visibility="visible" is for design preview only -->
+
+    <!-- Optional: Add a TextView to switch to Login screen -->
+    <TextView
+        android:id="@+id/textViewLoginLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Já tem uma conta? Faça login"
+        app:layout_constraintTop_toBottomOf="@id/cadastra_sebt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColor="?attr/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

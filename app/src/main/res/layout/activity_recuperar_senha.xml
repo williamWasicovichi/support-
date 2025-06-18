@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<?xml version="1.0" encoding="utf-8"?>-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,99 +7,69 @@
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
     android:padding="16dp"
-    tools:context=".Cadastras_se">
+    tools:context=".Recuperar_senha">
 
     <ImageView
         android:id="@+id/cabecario"
-        android:layout_width="500dp"
+        android:layout_width="0dp"
         android:layout_height="100dp"
         android:src="@drawable/logo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Logo" />
+
+    <TextView
+        android:id="@+id/textViewInstructions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="Digite seu e-mail para receber o link de recuperação de senha."
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cabecario" />
 
     <TextView
         android:id="@+id/emailCTV"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         android:text="E-mail"
         android:textColor="@color/white"
         android:textSize="20dp"
-        app:layout_constraintHorizontal_bias="0.033"
-        android:layout_marginTop="90dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cabecario" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewInstructions" />
 
     <EditText
         android:id="@+id/emailETC"
-        android:layout_width="400dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginTop="8dp"
         android:background="@color/grey"
-        android:hint="....."
-        android:textColorHint="@color/grey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:hint="seuemail@exemplo.com"
+        android:inputType="textEmailAddress"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailCTV" />
-
-    <TextView
-        android:id="@+id/senha"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginRight="160dp"
-        android:text="@string/senhaC"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailETC" />
-
-    <EditText
-        android:id="@+id/senhaET"
-        android:layout_width="400dp"
-        android:layout_height="48dp"
-        android:background="@color/grey"
-        android:hint="...."
-        android:textColorHint="@color/grey"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/senha" />
-
-    <TextView
-        android:id="@+id/senhaCTV"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginRight="160dp"
-        android:text="@string/senha_conf"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/senhaET" />
-
-    <EditText
-        android:id="@+id/senhaCET"
-        android:layout_width="400dp"
-        android:layout_height="48dp"
-        android:background="@color/grey"
-        android:hint="..."
-        android:textColorHint="@color/grey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/senhaCTV" />
-
 
     <Button
         android:id="@+id/salvar"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="38dp"
+        android:layout_marginTop="32dp"
         android:backgroundTint="@color/grey"
-        android:text="@string/salvarMudanca"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
+        android:text="Enviar E-mail"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailETC" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

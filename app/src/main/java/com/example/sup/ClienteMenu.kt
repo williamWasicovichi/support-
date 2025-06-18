@@ -14,34 +14,20 @@ import com.google.firebase.auth.ktx.auth    // Import if checking auth status
 import com.google.firebase.ktx.Firebase      // Import if checking auth status
 
 class ClienteMenu : AppCompatActivity() {
-    private lateinit var ticketET: EditText // Renamed for clarity (ET for EditText)
-    private lateinit var solicitarAtendimentoBT: Button // Renamed
-    private lateinit var acessarChatBT: Button          // Renamed
-
-    // Optional: Firebase Auth for checking login status
-    // private lateinit var auth: FirebaseAuth
+    private lateinit var ticketET: EditText
+    private lateinit var solicitarAtendimentoBT: Button
+    private lateinit var acessarChatBT: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState) // Call super.onCreate first
+        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_cliente_menu) // Then set content view
+        setContentView(R.layout.activity_cliente_menu)
 
-        // Initialize views AFTER setContentView
-        ticketET = findViewById(R.id.ticket) // Ensure ID matches your XML
-        solicitarAtendimentoBT = findViewById(R.id.SolicitarA) // Ensure ID matches your XML
-        acessarChatBT = findViewById(R.id.AcessarC)       // Ensure ID matches your XML
+        ticketET = findViewById(R.id.ticket)
+        solicitarAtendimentoBT = findViewById(R.id.SolicitarA)
+        acessarChatBT = findViewById(R.id.AcessarC)
 
-        // Optional: Initialize Firebase Auth
-        // auth = Firebase.auth
-        // if (auth.currentUser == null) {
-        //     // User not logged in, redirect to login
-        //     startActivity(Intent(this, MainActivity::class.java))
-        //     finish()
-        //     return
-        // }
-
-        // Apply window insets to the main layout
-        val mainLayout = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.main) // Ensure R.id.main is your root layout ID
+        val mainLayout = findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.main)
         ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -49,9 +35,8 @@ class ClienteMenu : AppCompatActivity() {
         }
 
         solicitarAtendimentoBT.setOnClickListener {
-            // Navigate to the activity used to create/generate tickets
-            // This should be CreateTicketActivity::class.java or GeradorTicket::class.java
-            startActivity(Intent(this, CreateTicketActivity::class.java))
+            // CORREÇÃO: Navegando para GeradorTicket, que contém a CreateTicketActivity
+            startActivity(Intent(this,GeradorTicket::class.java))
         }
 
         acessarChatBT.setOnClickListener {
@@ -64,19 +49,11 @@ class ClienteMenu : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Navigate to Chat activity, passing the ticket ID
             val intent = Intent(this, Chat::class.java)
             intent.putExtra("TICKET_ID", ticketId)
-            // You might also need to pass the current USER_ID if your Chat activity needs it
-            // and it's not directly obtainable from just a TICKET_ID
-            // val currentUserId = auth.currentUser?.uid
-            // if (currentUserId != null) {
-            //    intent.putExtra("USER_ID", currentUserId)
-            // } else {
-            //    Toast.makeText(this, "Erro: Usuário não identificado.", Toast.LENGTH_SHORT).show()
-            //    return@setOnClickListener
-            // }
             startActivity(intent)
         }
     }
 }
+
+annotation class GeradorTicket
