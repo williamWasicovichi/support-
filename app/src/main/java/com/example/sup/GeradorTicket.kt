@@ -33,7 +33,7 @@ data class SupportTicket(
     val createdAt: com.google.firebase.Timestamp = com.google.firebase.Timestamp.now()
 )
 
-class CreateTicketActivity : AppCompatActivity() {
+class GeradorTicket : AppCompatActivity() {
     private lateinit var editTextMotive: EditText
     private lateinit var spinnerCompany: Spinner
     private lateinit var buttonCreateTicket: Button
@@ -46,7 +46,7 @@ class CreateTicketActivity : AppCompatActivity() {
     private val companiesList = mutableListOf<String>() // To hold company names
 
     companion object {
-        private const val TAG = "CreateTicketActivity"
+        private const val TAG = "GeradorTicket"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

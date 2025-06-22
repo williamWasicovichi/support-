@@ -56,4 +56,3 @@ class ClienteMenu : AppCompatActivity() {
     }
 }
 
-annotation class GeradorTicket

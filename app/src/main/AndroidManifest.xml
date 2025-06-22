@@ -13,30 +13,22 @@
         android:theme="@style/Theme.Sup"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
-            android:exported="false" />
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".Chat"
-            android:exported="false" />
-        <activity
-            android:name=".ClienteMenu"
+            android:name=".Cadastras_se"
             android:exported="false" />
         <activity
             android:name=".Recuperar_senha"
             android:exported="false" />
         <activity
-            android:name=".Dados_da_conta"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".Casdastra_se" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".TipoDeCadastro" -->
-        <!-- android:exported="false" /> -->
-        <activity
-            android:name=".Cadastras_se"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".CadastreSeAtendente" -->
-        <!-- android:exported="false" /> -->
+            android:name=".ClienteMenu"
+            android:exported="false" />
         <activity
             android:name=".SuporteMenu"
             android:exported="false" />
@@ -44,14 +36,11 @@
             android:name=".GeradorTicket"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
+            android:name=".Dados_da_conta"
+            android:exported="false" />
     </application>
 
 </manifest>
