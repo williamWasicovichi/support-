@@ -51,9 +51,9 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-<!--    Alterei a ordem dos botões de loguin e cadastro-->
-<!--    e removi a altura do botão de recuperar senha, alterando o tamanho do-->
-<!--    texto para 15.-->
+    <!--    Alterei a ordem dos botões de loguin e cadastro-->
+    <!--    e removi a altura do botão de recuperar senha, alterando o tamanho do-->
+    <!--    texto para 15.-->
 
 
     <TextView
@@ -96,6 +96,7 @@
         android:background="@color/grey"
         android:backgroundTint="@color/grey"
         android:hint="@string/senha"
+        android:inputType="textPassword"
         android:textColor="@color/white"
         android:textColorHint="@color/light_grey"
         app:layout_constraintLeft_toLeftOf="parent"

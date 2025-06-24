@@ -20,16 +20,18 @@
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="40dp"
         android:gravity="center" />
+
     <ImageView
         android:id="@+id/FotoLogo"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/foto_logo"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/DadosC"
-        android:layout_marginTop="30dp"
-        />
+        app:layout_constraintTop_toBottomOf="@id/DadosC" />
+
     <TextView
         android:id="@+id/emailCTV"
         android:layout_width="80dp"
@@ -74,6 +76,7 @@
         android:background="@color/grey"
         android:hint="João Ninguem"
         android:textColorHint="@color/light_grey"
+        android:textColor="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nomeC" />
@@ -82,52 +85,57 @@
         android:id="@+id/mudarSenha"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="100dp"
         android:layout_marginRight="240dp"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/mudarSenha"
         android:textColor="@color/white"
         android:textSize="18dp"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nomeET"
         tools:ignore="KeyboardInaccessibleWidget" />
+
     <TextView
         android:id="@+id/cancelarConta"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_marginLeft="84dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="240dp"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/cancelarConta"
         android:textColor="@color/white"
         android:textSize="18dp"
-        app:layout_constraintTop_toBottomOf="@id/nomeET"
-        app:layout_constraintLeft_toRightOf="@id/mudarSenha"
         app:layout_constraintBottom_toBottomOf="@id/mudarSenha"
-        android:layout_marginLeft="100dp"
-        tools:ignore="KeyboardInaccessibleWidget"
-        />
+        app:layout_constraintLeft_toRightOf="@id/mudarSenha"
+        app:layout_constraintTop_toBottomOf="@id/nomeET"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="KeyboardInaccessibleWidget" />
+
     <Button
         android:id="@+id/Salvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/grey"
         android:text="@string/salvarMudanca"
         android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@id/mudarSenha"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="40dp"
-        />
+        app:layout_constraintTop_toBottomOf="@id/mudarSenha" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/cancelarConta"
+        app:layout_constraintStart_toStartOf="@+id/mudarSenha"
+        app:layout_constraintTop_toBottomOf="@+id/nomeET">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

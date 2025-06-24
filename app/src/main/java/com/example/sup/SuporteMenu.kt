@@ -1,15 +1,18 @@
 package com.example.sup
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.content.Intent
 import android.widget.AdapterView
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -27,6 +30,9 @@ class SuporteMenu : AppCompatActivity() {
     private lateinit var supportItemsAdapter: SuporteAdapter
     private val supportItemList = mutableListOf<SupportItem>()
     private lateinit var db: FirebaseFirestore
+    private lateinit var logoutBT: Button
+    private lateinit var cabecarioIV: ImageView
+    private lateinit var auth: FirebaseAuth
 
     private val TAG = "SuporteMenu"
 
@@ -36,7 +42,10 @@ class SuporteMenu : AppCompatActivity() {
         setContentView(R.layout.activity_suporte_menu)
 
         listView = findViewById(R.id.listView)
+        logoutBT = findViewById(R.id.buttonLogout)
+        cabecarioIV = findViewById(R.id.cabecario)
         db = Firebase.firestore
+        auth = Firebase.auth
 
         supportItemsAdapter = SuporteAdapter(this, supportItemList) { ticketId ->
             closeTicket(ticketId)
@@ -45,20 +54,34 @@ class SuporteMenu : AppCompatActivity() {
 
         loadSupportItems()
 
+        cabecarioIV.setOnClickListener {
+            startActivity(Intent(this, Dados_da_conta::class.java))
+        }
+
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val selectedItem = supportItemList[position]
 
-            if (selectedItem.id.isNotEmpty()) {
-                Toast.makeText(this, "Abrindo chat para: ${selectedItem.motive}", Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this, Chat::class.java)
-                intent.putExtra("TICKET_ID", selectedItem.id)
-                startActivity(intent)
-
+            // Verifica se o chamado não está fechado antes de abrir o chat
+            if (selectedItem.status == "Fechado") {
+                Toast.makeText(this, "Este chamado já foi fechado.", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "ID do ticket inválido.", Toast.LENGTH_SHORT).show()
-                Log.e(TAG, "Tentativa de abrir chat com ID de ticket vazio na posição: $position")
+                if (selectedItem.id.isNotEmpty()) {
+                    val intent = Intent(this, Chat::class.java)
+                    intent.putExtra("TICKET_ID", selectedItem.id)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "ID do chamado inválido.", Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "Tentativa de abrir chat com ID de chamado vazio na posição: $position")
+                }
             }
+        }
+
+        logoutBT.setOnClickListener {
+            auth.signOut()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -75,7 +98,7 @@ class SuporteMenu : AppCompatActivity() {
                     Log.e(TAG, "Error closing ticket", e)
                 }
         } else {
-            Toast.makeText(this, "ID do ticket inválido.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "ID do chamado inválido.", Toast.LENGTH_SHORT).show()
         }
     }
 
