@@ -1,16 +1,21 @@
 package com.example.sup
 
 import android.content.Context
+import android.content.Intent // Importar Intent
+import android.util.Log // Importar Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast // Importar Toast
 
 class SuporteAdapter(
     private val context: Context,
     private val dataSource: List<SupportItem>,
+    private val onOpenChatClicked: (SupportItem) -> Unit,
+    // O segundo lambda continua lidando com o fechamento do ticket
     private val onCloseTicketClicked: (String) -> Unit
 ) : BaseAdapter() {
 
@@ -50,11 +55,18 @@ class SuporteAdapter(
         holder.titleTextView?.text = item.motive
         holder.statusTextView?.text = "Status: ${item.status}"
 
+        // Configura o listener do botão "Fechar"
         holder.closeButton?.setOnClickListener {
             onCloseTicketClicked(item.id)
         }
 
-        if (item.status == "Fechado") {
+        // Configura o listener para o item inteiro (abrir chat)
+        rowView.setOnClickListener {
+            onOpenChatClicked(item)
+        }
+
+
+        if (item.status.equals("Fechado", ignoreCase = true)) {
             holder.statusTextView?.setTextColor(context.resources.getColor(R.color.light_grey))
             holder.closeButton?.visibility = View.GONE
         } else {

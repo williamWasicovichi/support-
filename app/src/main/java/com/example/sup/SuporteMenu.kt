@@ -3,7 +3,6 @@ package com.example.sup
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ListView
@@ -13,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -22,7 +23,6 @@ data class SupportItem(
     val status: String = "",
     val userName: String = "",
     val company: String = ""
-
 )
 
 class SuporteMenu : AppCompatActivity() {
@@ -33,6 +33,7 @@ class SuporteMenu : AppCompatActivity() {
     private lateinit var logoutBT: Button
     private lateinit var cabecarioIV: ImageView
     private lateinit var auth: FirebaseAuth
+    private var ticketsListener: ListenerRegistration? = null
 
     private val TAG = "SuporteMenu"
 
@@ -47,33 +48,30 @@ class SuporteMenu : AppCompatActivity() {
         db = Firebase.firestore
         auth = Firebase.auth
 
-        supportItemsAdapter = SuporteAdapter(this, supportItemList) { ticketId ->
-            closeTicket(ticketId)
-        }
+        supportItemsAdapter = SuporteAdapter(this, supportItemList,
+            onOpenChatClicked = { selectedItem ->
+                if (selectedItem.status.equals("Open", ignoreCase = true)) {
+                    if (selectedItem.id.isNotEmpty()) {
+                        val intent = Intent(this, Chat::class.java)
+                        intent.putExtra("TICKET_ID", selectedItem.id)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "ID do chamado inválido.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Este chamado já foi fechado.", Toast.LENGTH_SHORT).show()
+                }
+            },
+            onCloseTicketClicked = { ticketId ->
+                closeTicket(ticketId)
+            }
+        )
         listView.adapter = supportItemsAdapter
 
         loadSupportItems()
 
         cabecarioIV.setOnClickListener {
             startActivity(Intent(this, Dados_da_conta::class.java))
-        }
-
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val selectedItem = supportItemList[position]
-
-            // Verifica se o chamado não está fechado antes de abrir o chat
-            if (selectedItem.status == "Fechado") {
-                Toast.makeText(this, "Este chamado já foi fechado.", Toast.LENGTH_SHORT).show()
-            } else {
-                if (selectedItem.id.isNotEmpty()) {
-                    val intent = Intent(this, Chat::class.java)
-                    intent.putExtra("TICKET_ID", selectedItem.id)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "ID do chamado inválido.", Toast.LENGTH_SHORT).show()
-                    Log.e(TAG, "Tentativa de abrir chat com ID de chamado vazio na posição: $position")
-                }
-            }
         }
 
         logoutBT.setOnClickListener {
@@ -91,7 +89,7 @@ class SuporteMenu : AppCompatActivity() {
                 .update("status", "Fechado")
                 .addOnSuccessListener {
                     Toast.makeText(this, "Chamado fechado com sucesso!", Toast.LENGTH_SHORT).show()
-                    loadSupportItems()
+                    // A lista será atualizada automaticamente pelo listener, não precisa chamar loadSupportItems()
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "Erro ao fechar chamado: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -103,25 +101,33 @@ class SuporteMenu : AppCompatActivity() {
     }
 
     private fun loadSupportItems() {
-        db.collection("supportTickets")
-            .get()
-            .addOnSuccessListener { documents ->
-                if (documents.isEmpty) {
-                    Log.d(TAG, "No support items found.")
-                    Toast.makeText(this, "No support items available.", Toast.LENGTH_SHORT).show()
-                } else {
-                    supportItemList.clear()
-                    for (document in documents) {
-                        val item = document.toObject(SupportItem::class.java).copy(id = document.id)
+        val query = db.collection("supportTickets")
+            .orderBy("status", Query.Direction.DESCENDING)
+            .orderBy("createdAt", Query.Direction.ASCENDING)
+
+        ticketsListener = query.addSnapshotListener { snapshots, e ->
+            if (e != null) {
+                Log.w(TAG, "Listen failed.", e)
+                Toast.makeText(this, "Erro ao carregar chamados: ${e.message}", Toast.LENGTH_LONG).show()
+                return@addSnapshotListener
+            }
+
+            supportItemList.clear()
+            if (snapshots != null) {
+                for (document in snapshots.documents) {
+                    val item = document.toObject(SupportItem::class.java)?.copy(id = document.id)
+                    if (item != null) {
                         supportItemList.add(item)
-                        Log.d(TAG, "${document.id} => ${document.data}")
                     }
-                    supportItemsAdapter.notifyDataSetChanged()
                 }
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-                Toast.makeText(this, "Error loading items: ${exception.message}", Toast.LENGTH_LONG).show()
-            }
+            supportItemsAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Importante: Remover o listener para evitar vazamentos de memória e cobranças desnecessárias
+        ticketsListener?.remove()
     }
 }
