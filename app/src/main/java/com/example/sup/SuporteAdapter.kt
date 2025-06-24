@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView // Assuming you have TextViews in your list item layout
+import android.widget.Button
+import android.widget.TextView
 
 class SuporteAdapter(
     private val context: Context,
-    private val dataSource: List<SupportItem>
+    private val dataSource: List<SupportItem>,
+    private val onCloseTicketClicked: (String) -> Unit
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -36,23 +38,36 @@ class SuporteAdapter(
             holder = ViewHolder()
             holder.titleTextView = rowView.findViewById(R.id.textViewItemTitle)
             holder.statusTextView = rowView.findViewById(R.id.textViewItemStatus)
+            holder.closeButton = rowView.findViewById(R.id.buttonCloseTicket)
             rowView.tag = holder
         } else {
             rowView = convertView
-            holder = convertView.tag as ViewHolder
+            holder = rowView.tag as ViewHolder
         }
 
         val item = getItem(position) as SupportItem
 
-        holder.titleTextView.text = item.motive
-        holder.statusTextView.text = "Status: ${item.status}"
-        // Bind other data to other views in your holder
+        holder.titleTextView?.text = item.motive
+        holder.statusTextView?.text = "Status: ${item.status}"
+
+        holder.closeButton?.setOnClickListener {
+            onCloseTicketClicked(item.id)
+        }
+
+        if (item.status == "Fechado") {
+            holder.statusTextView?.setTextColor(context.resources.getColor(R.color.light_grey))
+            holder.closeButton?.visibility = View.GONE
+        } else {
+            holder.statusTextView?.setTextColor(context.resources.getColor(R.color.white))
+            holder.closeButton?.visibility = View.VISIBLE
+        }
 
         return rowView
     }
-    private class ViewHolder {
-        lateinit var titleTextView: TextView
-        lateinit var statusTextView: TextView
 
+    private class ViewHolder {
+        var titleTextView: TextView? = null
+        var statusTextView: TextView? = null
+        var closeButton: Button? = null
     }
 }

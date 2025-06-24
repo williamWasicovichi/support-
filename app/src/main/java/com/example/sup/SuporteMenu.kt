@@ -3,17 +3,16 @@ package com.example.sup
 import android.os.Bundle
 import android.util.Log
 import android.content.Intent
-import android.widget.AdapterView // For OnItemClickListener
+import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query // For ordering, if needed
-import com.google.firebase.firestore.ktx.firestore // KTX
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-// Assuming you have a data class for your support items
 data class SupportItem(
     val id: String = "",
     val motive: String = "",
@@ -25,7 +24,7 @@ data class SupportItem(
 
 class SuporteMenu : AppCompatActivity() {
     private lateinit var listView: ListView
-    private lateinit var supportItemsAdapter: SuporteAdapter // Use your adapter type
+    private lateinit var supportItemsAdapter: SuporteAdapter
     private val supportItemList = mutableListOf<SupportItem>()
     private lateinit var db: FirebaseFirestore
 
@@ -39,37 +38,22 @@ class SuporteMenu : AppCompatActivity() {
         listView = findViewById(R.id.listView)
         db = Firebase.firestore
 
-        // Initialize the adapter with an empty list first
-        supportItemsAdapter = SuporteAdapter(this, supportItemList) // Pass the list
+        supportItemsAdapter = SuporteAdapter(this, supportItemList) { ticketId ->
+            closeTicket(ticketId)
+        }
         listView.adapter = supportItemsAdapter
 
         loadSupportItems()
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val selectedItem = supportItemList[position] // Get the clicked item
-            Toast.makeText(this, "Clicked: ${selectedItem.motive}", Toast.LENGTH_SHORT).show()
-            // TODO: Navigate to a detail screen, passing selectedItem.id or the whole object
-            // val intent = Intent(this, SuporteDetailActivity::class.java)
-            // intent.putExtra("ITEM_ID", selectedItem.id)
-            // startActivity(intent)
-        }
-        listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val selectedItem = supportItemList[position] // Pega o item clicado
+            val selectedItem = supportItemList[position]
 
-            // Verifica se o ID do item não é nulo ou vazio
             if (selectedItem.id.isNotEmpty()) {
                 Toast.makeText(this, "Abrindo chat para: ${selectedItem.motive}", Toast.LENGTH_SHORT).show()
 
-                // ---- LÓGICA DE NAVEGAÇÃO CORRIGIDA ----
-                // Cria um Intent para abrir a tela de Chat
                 val intent = Intent(this, Chat::class.java)
-
-                // Adiciona o ID do ticket como um "extra" para que a tela de Chat saiba qual chat carregar
                 intent.putExtra("TICKET_ID", selectedItem.id)
-
-                // Inicia a activity de Chat
                 startActivity(intent)
-                // ------------------------------------
 
             } else {
                 Toast.makeText(this, "ID do ticket inválido.", Toast.LENGTH_SHORT).show()
@@ -78,26 +62,38 @@ class SuporteMenu : AppCompatActivity() {
         }
     }
 
+    private fun closeTicket(ticketId: String) {
+        if (ticketId.isNotEmpty()) {
+            db.collection("supportTickets").document(ticketId)
+                .update("status", "Fechado")
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Chamado fechado com sucesso!", Toast.LENGTH_SHORT).show()
+                    loadSupportItems()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Erro ao fechar chamado: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "Error closing ticket", e)
+                }
+        } else {
+            Toast.makeText(this, "ID do ticket inválido.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun loadSupportItems() {
-        // Example: Fetching items from a "supportTickets" collection in Firestore
-        // You might want to filter these for the current support user if applicable
         db.collection("supportTickets")
-            // .whereEqualTo("status", "open") // Example filter
-            // .orderBy("createdAt", Query.Direction.DESCENDING) // Example ordering
             .get()
             .addOnSuccessListener { documents ->
                 if (documents.isEmpty) {
                     Log.d(TAG, "No support items found.")
                     Toast.makeText(this, "No support items available.", Toast.LENGTH_SHORT).show()
-                    // Handle empty state - maybe show a message in the UI
                 } else {
-                    supportItemList.clear() // Clear previous items
+                    supportItemList.clear()
                     for (document in documents) {
                         val item = document.toObject(SupportItem::class.java).copy(id = document.id)
                         supportItemList.add(item)
                         Log.d(TAG, "${document.id} => ${document.data}")
                     }
-                    supportItemsAdapter.notifyDataSetChanged() // Refresh the ListView
+                    supportItemsAdapter.notifyDataSetChanged()
                 }
             }
             .addOnFailureListener { exception ->
