@@ -22,45 +22,43 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class Cadastras_se : AppCompatActivity() {
-    // It's good practice to use ViewBinding or Kotlin Android Extensions (Synthetics - deprecated but you might see it)
-    // For now, sticking to findViewById as per your original code, but note the order.
+
     private lateinit var emailCTV: EditText
     private lateinit var nomeET: EditText
     private lateinit var senhaCET: EditText
     private lateinit var conf_senhaCET: EditText
-    private lateinit var Codigo_EmpresaET: EditText // Assuming this is for your 'suporte' type
+    private lateinit var Codigo_EmpresaET: EditText
     private lateinit var cadastra_sebt: Button
-    private lateinit var progressBar: ProgressBar // Add a ProgressBar to your layout
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var auth: FirebaseAuth
     private val db = Firebase.firestore
 
-    // Define your own TAG for logging
+
     private val TAG = "Cadastras_se"
 
-    // User types (as in your code)
+
     object UserType {
         const val CLIENTE = "cliente"
-        const val SUPORTE = "suporte" // Changed from "Suporte" to "suporte" for consistency
+        const val SUPORTE = "suporte"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState) // Call super first
-        enableEdgeToEdge()                 // Then enableEdgeToEdge
-        setContentView(R.layout.activity_cadastras_se) // THEN set content view
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_cadastras_se)
 
-        // Initialize Firebase Auth
+
         auth = Firebase.auth
 
-        // Initialize Views AFTER setContentView
+
         emailCTV = findViewById(R.id.emailCTV)
         nomeET = findViewById(R.id.nomeET)
         senhaCET = findViewById(R.id.senhaCET)
         conf_senhaCET = findViewById(R.id.conf_senhaCET)
         Codigo_EmpresaET = findViewById(R.id.Codigo_EmpresaET)
         cadastra_sebt = findViewById(R.id.cadastra_sebt)
-        // Initialize ProgressBar (make sure you have <ProgressBar android:id="@+id/progressBar" ... /> in your XML)
-        // progressBar = findViewById(R.id.progressBar) // Example ID
+
 
         cadastra_sebt.setOnClickListener {
             performRegistration()
@@ -106,8 +104,6 @@ class Cadastras_se : AppCompatActivity() {
             return
         }
 
-        // Determine User Type (This is a simplified example)
-        // You'll need a more robust way to select this, e.g., RadioButtons or a Spinner
         val userType: String
         if (codigoEmpresa.isNotEmpty()) { // Example logic: if codigoEmpresa is filled, they are 'suporte'
             // TODO: You might want to validate the codigoEmpresa against a known list if it's for 'suporte'
@@ -129,7 +125,7 @@ class Cadastras_se : AppCompatActivity() {
                     } else {
                         setLoading(false)
                         Toast.makeText(baseContext, "Falha ao obter usuário após criação.", Toast.LENGTH_SHORT).show()
-                        updateUI(null) // Or handle error appropriately
+                        updateUI(null)
                     }
                 } else {
                     setLoading(false)
@@ -149,8 +145,8 @@ class Cadastras_se : AppCompatActivity() {
         val userData = hashMapOf(
             "uid" to userId,
             "name" to name,
-            "email" to email, // Storing email in Firestore as well
-            "userType" to userType, // "cliente" or "suporte"
+            "email" to email,
+            "userType" to userType,
             "createdAt" to com.google.firebase.Timestamp.now()
         )
 
@@ -158,27 +154,19 @@ class Cadastras_se : AppCompatActivity() {
             .set(userData)
             .addOnSuccessListener {
                 Log.d(TAG, "Dados do usuário salvos no Firestore!")
-                // updateUI will be called from the createUserWithEmailAndPassword's success path
-                // which now includes this Firestore save.
-                updateUI(firebaseUser) // Call updateUI after everything is successful
+                updateUI(firebaseUser)
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Erro ao salvar dados do usuário no Firestore", e)
-                // Critical decision: User is created in Auth, but details not saved.
-                // You might want to inform the user, or attempt to delete the Auth user (complex).
+
                 Toast.makeText(
                     baseContext,
                     "Registro bem-sucedido, mas falha ao salvar detalhes: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
-                // Potentially sign the user out or try to delete the auth user if this part is critical
-                // For now, we'll proceed as if the auth part was the main goal
-                updateUI(firebaseUser) // Or updateUI(null) if this failure means the user can't proceed
+                updateUI(firebaseUser)
             }
             .addOnCompleteListener {
-                // This will be called regardless of success/failure of Firestore write,
-                // after either addOnSuccessListener or addOnFailureListener.
-                // We ensure setLoading(false) is called oncecreateUser completes and firestore completes.
                 setLoading(false)
             }
     }
@@ -189,10 +177,10 @@ class Cadastras_se : AppCompatActivity() {
             // Registration and data save successful
             Toast.makeText(this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show()
             // Example: Navigate to a main activity or login screen
-            // val intent = Intent(this, MainActivity::class.java)
-            // intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            // startActivity(intent)
-            // finish()
+                val intent = Intent(this, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
         } else {
             // Registration failed or user data save failed critically
             // Toast for failure is already shown in the respective listeners.

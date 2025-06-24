@@ -68,7 +68,7 @@ class ChatAdapter : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(ChatMessag
         private val messageTimestamp: TextView = itemView.findViewById(R.id.textViewMessageTimestamp)
 
         fun bind(chatMessage: ChatMessage) {
-            senderNameText.text = chatMessage.senderName // Display sender's name
+            senderNameText.text = chatMessage.senderName
             messageText.text = chatMessage.text
             messageTimestamp.text = chatMessage.timestamp?.toDate()?.let {
                 SimpleDateFormat("hh:mm a", Locale.getDefault()).format(it)
@@ -79,7 +79,7 @@ class ChatAdapter : ListAdapter<ChatMessage, RecyclerView.ViewHolder>(ChatMessag
 
 class ChatMessageDiffCallback : DiffUtil.ItemCallback<ChatMessage>() {
     override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
-        return oldItem.id == newItem.id // Assuming 'id' is a unique identifier for the message
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {

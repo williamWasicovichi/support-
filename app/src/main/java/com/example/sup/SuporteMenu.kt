@@ -2,6 +2,7 @@ package com.example.sup
 
 import android.os.Bundle
 import android.util.Log
+import android.content.Intent
 import android.widget.AdapterView // For OnItemClickListener
 import android.widget.ListView
 import android.widget.Toast
@@ -14,11 +15,12 @@ import com.google.firebase.ktx.Firebase
 
 // Assuming you have a data class for your support items
 data class SupportItem(
-    val id: String = "", // Document ID from Firestore
-    val title: String = "",
+    val id: String = "",
+    val motive: String = "",
     val status: String = "",
-    val description: String = ""
-    // Add other relevant fields: createdDate, assignedTo, etc.
+    val userName: String = "",
+    val company: String = ""
+
 )
 
 class SuporteMenu : AppCompatActivity() {
@@ -45,11 +47,34 @@ class SuporteMenu : AppCompatActivity() {
 
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val selectedItem = supportItemList[position] // Get the clicked item
-            Toast.makeText(this, "Clicked: ${selectedItem.title}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Clicked: ${selectedItem.motive}", Toast.LENGTH_SHORT).show()
             // TODO: Navigate to a detail screen, passing selectedItem.id or the whole object
             // val intent = Intent(this, SuporteDetailActivity::class.java)
             // intent.putExtra("ITEM_ID", selectedItem.id)
             // startActivity(intent)
+        }
+        listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val selectedItem = supportItemList[position] // Pega o item clicado
+
+            // Verifica se o ID do item não é nulo ou vazio
+            if (selectedItem.id.isNotEmpty()) {
+                Toast.makeText(this, "Abrindo chat para: ${selectedItem.motive}", Toast.LENGTH_SHORT).show()
+
+                // ---- LÓGICA DE NAVEGAÇÃO CORRIGIDA ----
+                // Cria um Intent para abrir a tela de Chat
+                val intent = Intent(this, Chat::class.java)
+
+                // Adiciona o ID do ticket como um "extra" para que a tela de Chat saiba qual chat carregar
+                intent.putExtra("TICKET_ID", selectedItem.id)
+
+                // Inicia a activity de Chat
+                startActivity(intent)
+                // ------------------------------------
+
+            } else {
+                Toast.makeText(this, "ID do ticket inválido.", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Tentativa de abrir chat com ID de ticket vazio na posição: $position")
+            }
         }
     }
 

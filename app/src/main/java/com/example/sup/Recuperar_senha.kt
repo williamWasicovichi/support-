@@ -26,20 +26,14 @@ class Recuperar_senha : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        // Assuming your layout R.layout.activity_recuperar_senha has:
-        // 1. An EditText for email (e.g., android:id="@+id/emailEditTextRecuperar")
-        // 2. A Button to send the email (e.g., android:id="@+id/enviarEmailButton")
-        // 3. Optionally, a ProgressBar
+
         setContentView(R.layout.activity_recuperar_senha)
 
         auth = Firebase.auth
 
-        emailET = findViewById(R.id.emailETC) // Make sure this ID is just for email input
-        enviarEmailBT = findViewById(R.id.salvar) // Assuming 'salvar' is the button to send email
-        // progressBarRecuperar = findViewById(R.id.progressBarRecuperar) // Initialize if you add it
+        emailET = findViewById(R.id.emailETC)
+        enviarEmailBT = findViewById(R.id.salvar)
 
-        // Remove the senha and confirmar_senha EditTexts from this layout
-        // if this screen is ONLY for SENDING the reset email.
 
         enviarEmailBT.setOnClickListener {
             sendPasswordResetEmail()
@@ -72,11 +66,9 @@ class Recuperar_senha : AppCompatActivity() {
                         "Email de redefinição de senha enviado para $emailAddress. Verifique sua caixa de entrada.",
                         Toast.LENGTH_LONG
                     ).show()
-                    // Optionally, navigate back to login screen
-                    // finish()
-                    // or
-                    // startActivity(Intent(this, MainActivity::class.java))
-                    // finish()
+
+                     startActivity(Intent(this, MainActivity::class.java))
+                     finish()
                 } else {
                     Log.w(TAG, "sendPasswordResetEmail:failure", task.exception)
                     Toast.makeText(

@@ -9,7 +9,7 @@ import android.widget.TextView // Assuming you have TextViews in your list item 
 
 class SuporteAdapter(
     private val context: Context,
-    private val dataSource: List<SupportItem> // Pass the actual data
+    private val dataSource: List<SupportItem>
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -24,7 +24,7 @@ class SuporteAdapter(
     }
 
     override fun getItemId(position: Int): Long {
-        return position.toLong() // Or use item.id if it's a Long and unique
+        return position.toLong()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -32,10 +32,8 @@ class SuporteAdapter(
         val holder: ViewHolder
 
         if (convertView == null) {
-            // Inflate your custom row layout here (e.g., R.layout.list_item_suporte)
-            rowView = inflater.inflate(R.layout.list_item_suporte, parent, false) // Replace with your layout
+            rowView = inflater.inflate(R.layout.list_item_suporte, parent, false)
             holder = ViewHolder()
-            // Example: Assuming your list_item_suporte.xml has these TextViews
             holder.titleTextView = rowView.findViewById(R.id.textViewItemTitle)
             holder.statusTextView = rowView.findViewById(R.id.textViewItemStatus)
             rowView.tag = holder
@@ -46,17 +44,15 @@ class SuporteAdapter(
 
         val item = getItem(position) as SupportItem
 
-        holder.titleTextView.text = item.title
+        holder.titleTextView.text = item.motive
         holder.statusTextView.text = "Status: ${item.status}"
         // Bind other data to other views in your holder
 
         return rowView
     }
-
-    // ViewHolder pattern improves ListView performance (though RecyclerView enforces it better)
     private class ViewHolder {
         lateinit var titleTextView: TextView
         lateinit var statusTextView: TextView
-        // Add other views from your list item layout
+
     }
 }

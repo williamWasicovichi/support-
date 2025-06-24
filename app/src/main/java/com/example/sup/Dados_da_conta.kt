@@ -47,15 +47,15 @@ class Dados_da_conta : AppCompatActivity() {
         currentUser = auth.currentUser
 
         // Initialize Views AFTER setContentView
-        usuarioET = findViewById(R.id.usuario) // Ensure ID matches your XML
+        usuarioET = findViewById(R.id.usuario)
         nomeET = findViewById(R.id.nomeET)
         mudarSenhaTV = findViewById(R.id.mudarSenha)
         cancelarContaTV = findViewById(R.id.cancelarConta)
-        salvarBT = findViewById(R.id.Salvar) // Ensure ID matches your XML
+        salvarBT = findViewById(R.id.Salvar)
         // progressBarDados = findViewById(R.id.progressBarDados) // Initialize from XML
 
-        // Apply window insets to the main layout (ensure R.id.main exists in your XML)
-        val mainLayout = findViewById<View>(R.id.main) // Assuming R.id.main is your root ConstraintLayout or similar
+
+        val mainLayout = findViewById<View>(R.id.main)
         ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -63,7 +63,6 @@ class Dados_da_conta : AppCompatActivity() {
         }
 
         if (currentUser == null) {
-            // Should not happen if this screen is protected
             Toast.makeText(this, "Usuário não autenticado.", Toast.LENGTH_LONG).show()
             // Navigate to login
             startActivity(Intent(this, MainActivity::class.java))
@@ -78,7 +77,6 @@ class Dados_da_conta : AppCompatActivity() {
         }
 
         mudarSenhaTV.setOnClickListener {
-            // Option 1: Send password reset email (simpler)
             currentUser?.email?.let { email ->
                 auth.sendPasswordResetEmail(email)
                     .addOnCompleteListener { task ->

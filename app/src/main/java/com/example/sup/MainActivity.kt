@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var progressBarLogin: ProgressBar
 
     private lateinit var auth: FirebaseAuth
-    private val db = Firebase.firestore // Initialize Firestore instance
+    private val db = Firebase.firestore
 
     private val TAG = "MainActivity"
 
-    // User types (consistent with Cadastras_se)
+
     object UserType {
         const val CLIENTE = "cliente"
         const val SUPORTE = "suporte"
@@ -49,10 +49,9 @@ class MainActivity : AppCompatActivity() {
         recuperarSenhaTV = findViewById(R.id.recuperar_senha)
         cadastraseBT = findViewById(R.id.cadastra_se)
         loginBT = findViewById(R.id.login)
-        progressBarLogin = findViewById(R.id.progressBarLogin) // Make sure this ID is in your XML
+        progressBarLogin = findViewById(R.id.progressBarLogin)
 
-        // Initial check in onCreate is fine, but onStart is more robust for returning users
-        // If you keep it here, ensure onStart also has a check or remove one.
+
          if (auth.currentUser != null) {
             Log.d(TAG, "User already signed in on create: ${auth.currentUser?.uid}")
              fetchUserTypeAndNavigate(auth.currentUser!!) }
@@ -94,8 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
-                // No need to call setLoading(false) here yet,
-                // as Firestore fetch will happen next.
+
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
@@ -123,12 +121,12 @@ class MainActivity : AppCompatActivity() {
         val userId = firebaseUser.uid
         db.collection("users").document(userId).get()
             .addOnSuccessListener { documentSnapshot ->
-                setLoading(false) // Set loading false after Firestore fetch
+                setLoading(false)
                 if (documentSnapshot.exists()) {
                     val userType = documentSnapshot.getString("userType")
                     Log.d(TAG, "User type fetched: $userType for user $userId")
 
-                    // --- Conditional Navigation ---
+
                     when (userType) {
                         UserType.CLIENTE -> {
                             val intent = Intent(this, ClienteMenu::class.java) // Activity for Cliente
@@ -144,29 +142,26 @@ class MainActivity : AppCompatActivity() {
                             finish()
                         }
                         else -> {
-                            // Unknown user type or userType field missing
+
                             Log.w(TAG, "User type not found or unknown in Firestore: $userType")
                             Toast.makeText(this, "Tipo de usuário desconhecido. Contate o suporte.", Toast.LENGTH_LONG).show()
-                            // Optional: Sign out the user if userType is critical and missing
-                            // auth.signOut()
-                            // updateUI(null)
+                             auth.signOut()
+                             updateUI(null)
                         }
                     }
                 } else {
                     Log.w(TAG, "User document does not exist in Firestore for user $userId")
                     Toast.makeText(this, "Dados do usuário não encontrados. Contate o suporte.", Toast.LENGTH_LONG).show()
-                    // Optional: Sign out the user
-                    // auth.signOut()
-                    // updateUI(null)
+                     auth.signOut()
+                     updateUI(null)
                 }
             }
             .addOnFailureListener { e ->
                 setLoading(false)
                 Log.e(TAG, "Error fetching user type from Firestore", e)
                 Toast.makeText(this, "Erro ao buscar dados do usuário: ${e.message}", Toast.LENGTH_LONG).show()
-                // Optional: Sign out the user
-                // auth.signOut()
-                // updateUI(null)
+                 auth.signOut()
+                 updateUI(null)
             }
     }
 
@@ -175,7 +170,6 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "UpdateUI: User ${user.uid} is signed in.")
         } else {
             Log.i(TAG, "UpdateUI: User is signed out.")
-            // You might want to clear input fields here if login fails or user is signed out
             usuarioET.text.clear()
             senhaET.text.clear()
             usuarioET.error = null // Clear previous errors
@@ -183,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // setLoading remains the same
+
     private fun setLoading(isLoading: Boolean) {
         progressBarLogin.visibility = if (isLoading) View.VISIBLE else View.GONE
         loginBT.isEnabled = !isLoading
@@ -197,8 +191,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             Log.d(TAG, "onStart: User ${currentUser.uid} already logged in. Fetching type...")
-            // Show loading indicator while fetching user type from Firestore
-            setLoading(true) // Show loading before starting the async Firestore call
+            setLoading(true)
             fetchUserTypeAndNavigate(currentUser)
         }
     }

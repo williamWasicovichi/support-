@@ -35,7 +35,6 @@ class ClienteMenu : AppCompatActivity() {
         }
 
         solicitarAtendimentoBT.setOnClickListener {
-            // CORREÇÃO: Navegando para GeradorTicket, que contém a CreateTicketActivity
             startActivity(Intent(this,GeradorTicket::class.java))
         }
 

@@ -37,7 +37,6 @@ class Chat : AppCompatActivity() {
     private var currentUser: FirebaseUser? = null
 
     private var ticketId: String? = null
-    // private var receivedUserId: String? = null // If you also get USER_ID from intent
 
     private var messagesListener: ListenerRegistration? = null
 
@@ -55,11 +54,10 @@ class Chat : AppCompatActivity() {
         currentUser = auth.currentUser
 
         ticketId = intent.getStringExtra("TICKET_ID")
-        // receivedUserId = intent.getStringExtra("USER_ID") // Retrieve if passed
 
         if (currentUser == null) {
             Toast.makeText(this, "Usuário não autenticado.", Toast.LENGTH_LONG).show()
-            finish() // Or redirect to login
+            finish()
             return
         }
 
@@ -74,8 +72,7 @@ class Chat : AppCompatActivity() {
         buttonSendMessage = findViewById(R.id.buttonSendMessage)
         progressBarChat = findViewById(R.id.progressBarChat)
 
-        // Apply window insets to the main layout
-        val mainLayout = findViewById<View>(R.id.mainChatLayout) // Ensure this ID is on your root layout
+        val mainLayout = findViewById<View>(R.id.mainChatLayout)
         ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -91,10 +88,10 @@ class Chat : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        chatAdapter = ChatAdapter() // Initialize adapter
+        chatAdapter = ChatAdapter()
         recyclerViewChatMessages.apply {
             layoutManager = LinearLayoutManager(this@Chat).apply {
-                stackFromEnd = true // New messages appear at the bottom and view scrolls
+                stackFromEnd = true
             }
             adapter = chatAdapter
         }
@@ -103,9 +100,9 @@ class Chat : AppCompatActivity() {
     private fun loadMessages() {
         setLoading(true)
         val messagesCollectionRef = db.collection("supportTickets")
-            .document(ticketId!!) // ticketId is confirmed not null here
+            .document(ticketId!!)
             .collection("messages")
-            .orderBy("timestamp", Query.Direction.ASCENDING) // Order by timestamp
+            .orderBy("timestamp", Query.Direction.ASCENDING)
 
         messagesListener = messagesCollectionRef.addSnapshotListener { snapshots, e ->
             setLoading(false)
@@ -121,7 +118,7 @@ class Chat : AppCompatActivity() {
                 newMessages.add(message)
             }
             chatAdapter.submitList(newMessages)
-            // Scroll to the bottom only if new messages were added or initially loading
+
             if (newMessages.isNotEmpty()) {
                 recyclerViewChatMessages.scrollToPosition(newMessages.size - 1)
             }
@@ -136,7 +133,6 @@ class Chat : AppCompatActivity() {
         }
 
         val senderId = currentUser!!.uid
-        // Fetch senderName from your "users" collection in Firestore or use displayName
         val senderName = currentUser!!.displayName ?: currentUser!!.email ?: "Usuário"
 
 
@@ -144,17 +140,16 @@ class Chat : AppCompatActivity() {
             text = messageText,
             senderId = senderId,
             senderName = senderName
-            // timestamp will be set by @ServerTimestamp
+
         )
 
         db.collection("supportTickets")
-            .document(ticketId!!) // ticketId is confirmed not null
+            .document(ticketId!!)
             .collection("messages")
             .add(message)
             .addOnSuccessListener {
                 Log.d(TAG, "Mensagem enviada com sucesso!")
-                editTextChatMessage.text.clear() // Clear input field
-                // The listener will automatically update the RecyclerView
+                editTextChatMessage.text.clear()
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Erro ao enviar mensagem", e)
@@ -169,6 +164,6 @@ class Chat : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        messagesListener?.remove() // Important: Remove Firestore listener to prevent memory leaks
+        messagesListener?.remove()
     }
 }

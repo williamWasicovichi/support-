@@ -5,6 +5,7 @@
     android:id="@+id/mainRegistrationLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_grey"
     android:padding="24dp"
     tools:context=".Cadastras_se">
 
@@ -15,6 +16,7 @@
         android:text="Criar Conta"
         android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="@color/light_grey"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -136,9 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:visibility="visible"/>
-    <!-- tools:visibility="visible" is for design preview only -->
 
-    <!-- Optional: Add a TextView to switch to Login screen -->
     <TextView
         android:id="@+id/textViewLoginLink"
         android:layout_width="wrap_content"
@@ -148,9 +148,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
+        android:textColor="@color/light_grey"
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:textColor="?attr/colorPrimary" />
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
